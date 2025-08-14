@@ -1,11 +1,8 @@
 import {
   _id,
-  _price,
   _times,
-  _boolean,
   _fullName,
   _taskNames,
-  _description,
 } from './_mock';
 
 // ----------------------------------------------------------------------
