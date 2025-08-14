@@ -207,8 +207,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         throw new Error(data.message || 'Registration failed');
       }
 
-      // Registration successful, but user needs to verify OTP
-      dispatch({ type: 'AUTH_FAILURE', payload: 'Please check your email for OTP verification' });
+      // Registration successful - save email to localStorage for OTP verification
+      localStorage.setItem('pendingEmail', email);
+      
+      // Clear loading state and redirect to OTP verification
+      dispatch({ type: 'INITIAL_LOADING_COMPLETE' });
+      
+      // Redirect to OTP verification page
+      window.location.href = '/verify-otp';
     } catch (error) {
       dispatch({
         type: 'AUTH_FAILURE',
@@ -247,6 +253,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         // Store in localStorage
         localStorage.setItem('authToken', data.token);
         localStorage.setItem('userData', JSON.stringify(user));
+        
+        // Clear pending email from localStorage
+        localStorage.removeItem('pendingEmail');
         
         dispatch({
           type: 'AUTH_SUCCESS',

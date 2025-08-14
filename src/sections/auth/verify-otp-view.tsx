@@ -22,6 +22,14 @@ export function VerifyOtpView() {
   const [email, setEmail] = useState('');
   const inputRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  // Load email from localStorage on component mount
+  useEffect(() => {
+    const pendingEmail = localStorage.getItem('pendingEmail');
+    if (pendingEmail) {
+      setEmail(pendingEmail);
+    }
+  }, []);
+
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
@@ -123,20 +131,6 @@ export function VerifyOtpView() {
     >
       <ErrorAlert error={error} onClose={clearError} />
 
-      <TextField
-        fullWidth
-        name="email"
-        label="Email address"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-        sx={{ mb: 3 }}
-        slotProps={{
-          inputLabel: { shrink: true },
-        }}
-      />
-
       <Typography
         variant="body2"
         sx={{
@@ -146,7 +140,7 @@ export function VerifyOtpView() {
           width: '100%',
         }}
       >
-        We&apos;ve sent a verification code to your email
+        We&apos;ve sent a verification code to <strong>{email}</strong>
       </Typography>
 
       {renderOtpInputs}

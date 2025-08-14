@@ -23,23 +23,16 @@ export function SignUpView() {
   const { register, isLoading, error, clearError } = useAuth();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [formError, setFormError] = useState('');
 
   const handleSignUp = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError('');
 
-    if (!email || !password || !confirmPassword) {
+    if (!email || !password) {
       setFormError('All fields are required');
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setFormError('Passwords do not match');
       return;
     }
 
@@ -49,7 +42,7 @@ export function SignUpView() {
     }
 
     await register(email, password);
-  }, [email, password, confirmPassword, register]);
+  }, [email, password, register]);
 
   const handleSignInClick = useCallback(() => {
     router.push('/');
@@ -99,29 +92,6 @@ export function SignUpView() {
               <InputAdornment position="end">
                 <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
                   <LucideIcon icon={showPassword ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          },
-        }}
-        sx={{ mb: 3 }}
-      />
-
-      <TextField
-        fullWidth
-        name="confirmPassword"
-        label="Confirm Password"
-        type={showConfirmPassword ? 'text' : 'password'}
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        required
-        slotProps={{
-          inputLabel: { shrink: true },
-          input: {
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)} edge="end">
-                  <LucideIcon icon={showConfirmPassword ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
                 </IconButton>
               </InputAdornment>
             ),
