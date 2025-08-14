@@ -15,15 +15,15 @@ import { ProtectedRoute } from 'src/components/protected-route';
 
 // ----------------------------------------------------------------------
 
-export const DashboardPage = lazy(() => import('src/pages/dashboard'));
-export const SignInPage = lazy(() => import('src/pages/sign-in'));
-export const SignUpPage = lazy(() => import('src/pages/sign-up'));
-export const VerifyOtpPage = lazy(() => import('src/pages/verify-otp'));
-export const FoodsPage = lazy(() => import('src/pages/foods'));
-export const NewFoodPage = lazy(() => import('src/pages/new-food'));
-export const ProfilePage = lazy(() => import('src/pages/profile'));
-export const ChangePasswordPage = lazy(() => import('src/pages/change-password'));
-export const Page404 = lazy(() => import('src/pages/page-not-found'));
+export const DashboardPage = lazy(() => import('src/pages/dashboard/dashboard'));
+export const SignInPage = lazy(() => import('src/pages/auth/sign-in'));
+export const SignUpPage = lazy(() => import('src/pages/auth/sign-up'));
+export const VerifyOtpPage = lazy(() => import('src/pages/auth/verify-otp'));
+export const FoodsPage = lazy(() => import('src/pages/foods/foods'));
+export const NewFoodPage = lazy(() => import('src/pages/foods/new-food'));
+export const ProfilePage = lazy(() => import('src/pages/profile/profile'));
+export const ChangePasswordPage = lazy(() => import('src/pages/auth/change-password'));
+export const Page404 = lazy(() => import('src/pages/error/page-not-found'));
 
 const renderFallback = () => (
   <Box
