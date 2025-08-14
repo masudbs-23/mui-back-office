@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
-import CircularProgress from '@mui/material/CircularProgress';
+
 
 import { useRouter } from 'src/routes/hooks';
 
@@ -26,12 +26,12 @@ export function SignInView() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // Redirect if already authenticated
+  // Redirect if already authenticated and not loading
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && !isLoading) {
       router.push('/dashboard');
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, isLoading, router]);
 
   const handleSignIn = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,6 +65,7 @@ export function SignInView() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
+        disabled={isLoading}
         sx={{ mb: 3 }}
         slotProps={{
           inputLabel: { shrink: true },
@@ -83,12 +84,13 @@ export function SignInView() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
+        disabled={isLoading}
         slotProps={{
           inputLabel: { shrink: true },
           input: {
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end" disabled={isLoading}>
                   <LucideIcon icon={showPassword ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
                 </IconButton>
               </InputAdornment>
@@ -104,7 +106,6 @@ export function SignInView() {
         type="submit"
         variant="contained"
         disabled={isLoading}
-        startIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : null}
         sx={{
           bgcolor: isLoading ? 'grey.400' : 'primary.main',
           color: isLoading ? 'grey.600' : 'primary.contrastText',
@@ -140,13 +141,22 @@ export function SignInView() {
             color: 'text.secondary',
           }}
         >
-          Don’t have an account?
-          <Link variant="subtitle2" sx={{ ml: 0.5, cursor: 'pointer' }} onClick={handleSignUpClick}>
+          Don&apos;t have an account?
+          <Link 
+            variant="subtitle2" 
+            sx={{ 
+              ml: 0.5, 
+              cursor: isLoading ? 'not-allowed' : 'pointer',
+              opacity: isLoading ? 0.6 : 1,
+              pointerEvents: isLoading ? 'none' : 'auto'
+            }} 
+            onClick={handleSignUpClick}
+          >
             Get started
           </Link>
         </Typography>
       </Box>
-             {renderForm}
+      {renderForm}
     </>
   );
 }

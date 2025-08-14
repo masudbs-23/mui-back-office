@@ -25,7 +25,8 @@ type AuthAction =
   | { type: 'AUTH_FAILURE'; payload: string }
   | { type: 'LOGOUT' }
   | { type: 'CLEAR_ERROR' }
-  | { type: 'INITIALIZE_AUTH'; payload: { user: User; token: string } };
+  | { type: 'INITIALIZE_AUTH'; payload: { user: User; token: string } }
+  | { type: 'INITIAL_LOADING_COMPLETE' };
 
 const initialState: AuthState = {
   user: null,
@@ -81,6 +82,11 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         isLoading: false,
         error: null,
       };
+    case 'INITIAL_LOADING_COMPLETE':
+      return {
+        ...state,
+        isLoading: false,
+      };
     default:
       return state;
   }
@@ -132,6 +138,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } else {
       dispatch({ type: 'LOGOUT' });
     }
+    
+    // Mark initial loading as complete
+    dispatch({ type: 'INITIAL_LOADING_COMPLETE' });
   }, []);
 
   const login = async (email: string, password: string) => {
