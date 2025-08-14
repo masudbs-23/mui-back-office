@@ -26,9 +26,19 @@ export const useLogin = () => {
   });
 };
 
-export const useRegister = () => useMutation({
+export const useRegister = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
     mutationFn: (userData: RegisterRequest) => authService.register(userData),
+    onSuccess: (data, variables) => {
+      // Save email to localStorage for OTP verification
+      localStorage.setItem('pendingEmail', variables.email);
+      // Redirect to OTP verification page
+      window.location.href = '/verify-otp';
+    },
   });
+};
 
 export const useVerifyOtp = () => {
   const queryClient = useQueryClient();
@@ -38,6 +48,8 @@ export const useVerifyOtp = () => {
     onSuccess: (data) => {
       if (data.token) {
         localStorage.setItem('authToken', data.token);
+        // Clear pending email from localStorage
+        localStorage.removeItem('pendingEmail');
         // Invalidate and refetch user data
         queryClient.invalidateQueries({ queryKey: queryKeys.user });
       }
