@@ -18,10 +18,11 @@ import { useTable, getComparator } from 'src/hooks/use-table';
 
 import { DashboardContent } from 'src/layouts/dashboard';
 
-import { Scrollbar } from 'src/components/scrollbar';
 import { Breadcrumb } from 'src/components/breadcrumb';
+import { Scrollbar } from 'src/components/scrollbar';
 import { LucideIcon } from 'src/components/lucide-icons';
-import { TableNoData, TableEmptyRows } from 'src/components/table';
+import { TableEmptyRows } from 'src/components/table';
+import { TableNoData } from 'src/components/table-no-data';
 
 import { FoodTableRow } from '../food-table-row';
 import { FoodTableHead } from '../food-table-head';

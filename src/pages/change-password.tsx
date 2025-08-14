@@ -114,6 +114,8 @@ export default function ChangePasswordView() {
               onChange={handleInputChange('currentPassword')}
               slotProps={{
                 inputLabel: { shrink: true },
+              }}
+              InputProps={{
                 endAdornment: (
                   <Button
                     onClick={() => handleTogglePasswordVisibility('current')}
@@ -138,6 +140,8 @@ export default function ChangePasswordView() {
               onChange={handleInputChange('newPassword')}
               slotProps={{
                 inputLabel: { shrink: true },
+              }}
+              InputProps={{
                 endAdornment: (
                   <Button
                     onClick={() => handleTogglePasswordVisibility('new')}
@@ -162,6 +166,8 @@ export default function ChangePasswordView() {
               onChange={handleInputChange('confirmPassword')}
               slotProps={{
                 inputLabel: { shrink: true },
+              }}
+              InputProps={{
                 endAdornment: (
                   <Button
                     onClick={() => handleTogglePasswordVisibility('confirm')}

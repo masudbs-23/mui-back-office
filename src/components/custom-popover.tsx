@@ -1,4 +1,5 @@
 import type { PopoverProps } from '@mui/material/Popover';
+import type { SxProps, Theme } from '@mui/material/styles';
 
 import { useState, forwardRef, useCallback } from 'react';
 
@@ -7,86 +8,62 @@ import Popover from '@mui/material/Popover';
 
 // ----------------------------------------------------------------------
 
+type ArrowDirection =
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right'
+  | 'left-top'
+  | 'left-bottom'
+  | 'right-top'
+  | 'right-bottom';
+
 type Props = PopoverProps & {
-  arrow?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'left-top' | 'left-bottom' | 'right-top' | 'right-bottom';
+  arrow?: ArrowDirection;
   disabledArrow?: boolean;
+  sx?: SxProps<Theme>;
 };
 
 export const CustomPopover = forwardRef<HTMLDivElement, Props>(
   ({ children, arrow = 'top-right', disabledArrow, sx, ...other }, ref) => {
     const arrowSize = 12;
 
-    const arrowStyle = {
-      top: {
-        left: 0,
-        right: 0,
-        height: arrowSize,
-      },
-      bottom: {
-        left: 0,
-        right: 0,
-        height: arrowSize,
-      },
-      left: {
-        top: 0,
-        bottom: 0,
-        width: arrowSize,
-      },
-      right: {
-        top: 0,
-        bottom: 0,
-        width: arrowSize,
-      },
+    const arrowStyle: Record<
+      'top' | 'bottom' | 'left' | 'right',
+      { width?: number; height?: number; top?: number; bottom?: number; left?: number; right?: number }
+    > = {
+      top: { height: arrowSize },
+      bottom: { height: arrowSize },
+      left: { width: arrowSize },
+      right: { width: arrowSize },
     };
 
-    const arrowPositionStyle = {
-      'top-left': {
-        top: -arrowSize,
-        left: 20,
-      },
-      'top-right': {
-        top: -arrowSize,
-        right: 20,
-      },
-      'bottom-left': {
-        bottom: -arrowSize,
-        left: 20,
-      },
-      'bottom-right': {
-        bottom: -arrowSize,
-        right: 20,
-      },
-      'left-top': {
-        left: -arrowSize,
-        top: 20,
-      },
-      'left-bottom': {
-        left: -arrowSize,
-        bottom: 20,
-      },
-      'right-top': {
-        right: -arrowSize,
-        top: 20,
-      },
-      'right-bottom': {
-        right: -arrowSize,
-        bottom: 20,
-      },
+    const arrowPositionStyle: Record<ArrowDirection, Partial<Record<'top' | 'bottom' | 'left' | 'right', number>>> = {
+      'top-left': { top: -arrowSize, left: 20 },
+      'top-right': { top: -arrowSize, right: 20 },
+      'bottom-left': { bottom: -arrowSize, left: 20 },
+      'bottom-right': { bottom: -arrowSize, right: 20 },
+      'left-top': { left: -arrowSize, top: 20 },
+      'left-bottom': { left: -arrowSize, bottom: 20 },
+      'right-top': { right: -arrowSize, top: 20 },
+      'right-bottom': { right: -arrowSize, bottom: 20 },
     };
 
-    const [arrowDirection, arrowPosition] = arrow.split('-') as [keyof typeof arrowStyle, keyof typeof arrowPositionStyle];
-    
-    // Get arrow position styles with fallback to prevent undefined access
-    const positionStyles = arrowPositionStyle[arrowPosition] || arrowPositionStyle['top-right'];
+    const [arrowDirection, arrowPosition] = arrow.split('-') as [
+      keyof typeof arrowStyle,
+      keyof typeof arrowPositionStyle
+    ];
+
+    const positionStyles = arrowPositionStyle[arrow] ?? arrowPositionStyle['top-right'];
 
     return (
       <Popover
         ref={ref}
         sx={{
           '& .MuiPopover-paper': {
-            boxShadow: (theme) => theme.customShadows.dropdown,
+            boxShadow: (theme) => theme.customShadows?.dropdown ?? theme.shadows[3],
             borderRadius: 2,
-            ...sx,
+            ...(sx as object), // explicitly cast for TS
           },
         }}
         {...other}
@@ -94,10 +71,7 @@ export const CustomPopover = forwardRef<HTMLDivElement, Props>(
         {!disabledArrow && (
           <Box
             sx={{
-              top: positionStyles.top,
-              left: positionStyles.left,
-              right: positionStyles.right,
-              bottom: positionStyles.bottom,
+              ...positionStyles,
               width: arrowStyle[arrowDirection]?.width,
               height: arrowStyle[arrowDirection]?.height,
               position: 'absolute',
@@ -114,6 +88,8 @@ export const CustomPopover = forwardRef<HTMLDivElement, Props>(
     );
   }
 );
+
+CustomPopover.displayName = 'CustomPopover';
 
 // ----------------------------------------------------------------------
 
