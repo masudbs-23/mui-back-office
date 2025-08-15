@@ -61,19 +61,19 @@ export function NewFoodView() {
   const handleSubmit = useCallback(() => {
     // Handle form submission here
     console.log('Form data:', formData);
-    
+
     // Basic validation
     if (!formData.name || !formData.category || !formData.price) {
       showSnackbar('Please fill in all required fields', 'error');
       return;
     }
-    
+
     // Validate price is a valid number
     if (isNaN(Number(formData.price)) || Number(formData.price) <= 0) {
       showSnackbar('Please enter a valid price', 'error');
       return;
     }
-    
+
     // Simulate API call
     try {
       // Here you would make an API call to create the food
@@ -87,13 +87,13 @@ export function NewFoodView() {
 
   return (
     <DashboardContent>
-      <Breadcrumb 
-        title="New Food" 
+      <Breadcrumb
+        title="New Food"
         items={[
           { title: 'Dashboard', href: '/dashboard' },
-          { title: 'Foods', href: '/dashboard/foods' },
+          { title: 'Foods List', href: '/dashboard/foods' },
           { title: 'New Food' }
-        ]} 
+        ]}
       />
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', mt: 3, mb: 2 }}>
@@ -116,9 +116,9 @@ export function NewFoodView() {
       </Box>
 
       <Box sx={{ display: 'flex', gap: 3 }}>
-        <Card sx={{ 
-          flex: 1, 
-          p: 3, 
+        <Card sx={{
+          flex: 1,
+          p: 3,
           border: '1px solid #E0E0E0',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
           backgroundColor: '#FFFFFF'

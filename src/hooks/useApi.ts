@@ -13,7 +13,7 @@ export const queryKeys = {
 // Auth mutations
 export const useLogin = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (credentials: LoginRequest) => authService.login(credentials),
     onSuccess: (data) => {
@@ -28,7 +28,6 @@ export const useLogin = () => {
 
 export const useRegister = () => {
   const queryClient = useQueryClient();
-  
   return useMutation({
     mutationFn: (userData: RegisterRequest) => authService.register(userData),
     onSuccess: (data, variables) => {
@@ -42,7 +41,7 @@ export const useRegister = () => {
 
 export const useVerifyOtp = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (otpData: VerifyOtpRequest) => authService.verifyOtp(otpData),
     onSuccess: (data) => {
@@ -59,16 +58,16 @@ export const useVerifyOtp = () => {
 
 // Food queries
 export const useFoods = () => useQuery({
-    queryKey: queryKeys.foods,
-    queryFn: () => foodService.getFoods(),
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes (formerly cacheTime)
-  });
+  queryKey: queryKeys.foods,
+  queryFn: () => foodService.getFoods(),
+  staleTime: 5 * 60 * 1000, // 5 minutes
+  gcTime: 10 * 60 * 1000, // 10 minutes (formerly cacheTime)
+});
 
 // Utility hook for logout
 export const useLogout = () => {
   const queryClient = useQueryClient();
-  
+
   return () => {
     localStorage.removeItem('authToken');
     // Clear all queries

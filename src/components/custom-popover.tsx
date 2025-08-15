@@ -49,7 +49,7 @@ export const CustomPopover = forwardRef<HTMLDivElement, Props>(
       'right-bottom': { right: -arrowSize, bottom: 20 },
     };
 
-    const [arrowDirection, arrowPosition] = arrow.split('-') as [
+    const [arrowDirection] = arrow.split('-') as [
       keyof typeof arrowStyle,
       keyof typeof arrowPositionStyle
     ];

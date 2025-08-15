@@ -36,7 +36,7 @@ const TABLE_HEAD = [
   { id: 'category', label: 'Category' },
   { id: 'available', label: 'Available' },
   { id: 'createdAt', label: 'Created At' },
-                    { id: 'actions', label: '' },
+  { id: 'actions', label: '' },
 ];
 
 
@@ -71,7 +71,7 @@ export function FoodsView() {
 
 
   const notFound = !dataFiltered.length && !!filterName;
-  const noData = !dataFiltered.length && !filterName;
+  // const noData = !dataFiltered.length && !filterName;
 
   const handleNewFood = useCallback(() => {
     router.push('/dashboard/foods/new');
@@ -96,12 +96,12 @@ export function FoodsView() {
   if (isLoading) {
     return (
       <DashboardContent>
-        <Breadcrumb 
-          title="Foods" 
+        <Breadcrumb
+          title="Foods List"
           items={[
             { title: 'Dashboard', href: '/dashboard' },
             { title: 'Foods' }
-          ]} 
+          ]}
         />
 
         <Box
@@ -149,12 +149,12 @@ export function FoodsView() {
   if (error) {
     return (
       <DashboardContent>
-        <Breadcrumb 
-          title="Foods" 
+        <Breadcrumb
+          title="Foods List"
           items={[
             { title: 'Dashboard', href: '/dashboard' },
             { title: 'Foods' }
-          ]} 
+          ]}
         />
 
         <Box
@@ -201,12 +201,12 @@ export function FoodsView() {
 
   return (
     <DashboardContent>
-      <Breadcrumb 
-        title="Foods" 
+      <Breadcrumb
+        title="Foods List"
         items={[
           { title: 'Dashboard', href: '/dashboard' },
           { title: 'Foods' }
-        ]} 
+        ]}
       />
 
       <Box
