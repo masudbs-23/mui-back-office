@@ -43,9 +43,14 @@ export function FoodTableRow({
     setOpenPopover(null);
   }, []);
 
-  const handleEdit = useCallback(() => {
+  const handleView = useCallback(() => {
     handleClosePopover();
     router.push(`/dashboard/foods/${row._id}`);
+  }, [router, row._id, handleClosePopover]);
+
+  const handleEdit = useCallback(() => {
+    handleClosePopover();
+    router.push(`/dashboard/foods/${row._id}/edit`);
   }, [router, row._id, handleClosePopover]);
 
   const handleDelete = useCallback(() => {
@@ -136,6 +141,11 @@ export function FoodTableRow({
             },
           }}
         >
+          <MenuItem onClick={handleView}>
+            <LucideIcon icon="solar:eye-bold" />
+            View
+          </MenuItem>
+
           <MenuItem onClick={handleEdit}>
             <LucideIcon icon="solar:pen-bold" />
             Edit

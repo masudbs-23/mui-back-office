@@ -64,6 +64,38 @@ export const useFoods = () => useQuery({
   gcTime: 10 * 60 * 1000, // 10 minutes (formerly cacheTime)
 });
 
+export const useFood = (id: string) => useQuery({
+  queryKey: [...queryKeys.foods, id],
+  queryFn: () => foodService.getFood(id),
+  enabled: !!id,
+  staleTime: 5 * 60 * 1000,
+  gcTime: 10 * 60 * 1000,
+});
+
+// Food mutations
+export const useCreateFood = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (foodData: any) => foodService.createFood(foodData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.foods });
+    },
+  });
+};
+
+export const useUpdateFood = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, foodData }: { id: string; foodData: any }) => 
+      foodService.updateFood(id, foodData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.foods });
+    },
+  });
+};
+
 // Utility hook for logout
 export const useLogout = () => {
   const queryClient = useQueryClient();
