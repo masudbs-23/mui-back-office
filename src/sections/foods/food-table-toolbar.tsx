@@ -34,7 +34,6 @@ export function FoodTableToolbar({ numSelected, filterName, onFilterName, onClea
       ) : (
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <OutlinedInput
-            fullWidth
             value={filterName}
             onChange={onFilterName}
             placeholder="Search food..."
@@ -43,7 +42,7 @@ export function FoodTableToolbar({ numSelected, filterName, onFilterName, onClea
                 <LucideIcon width={20} icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
               </InputAdornment>
             }
-            sx={{ maxWidth: 320 }}
+            sx={{ width: 480 }}
           />
           {filterName && (
             <Button
